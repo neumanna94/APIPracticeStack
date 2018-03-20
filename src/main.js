@@ -1,48 +1,55 @@
 import $ from 'jquery';
 import '../css/styles.css';
-  $(document).ready(function() {
+
+function createCORSRequest(method, url) {
+  var xhr = new XMLHttpRequest();
+  if ("withCredentials" in xhr) {
+    // XHR for Chrome/Firefox/Opera/Safari.
+    xhr.open(method, url, true);
+  } else if (typeof XDomainRequest != "undefined") {
+    // XDomainRequest for IE.
+    xhr = new XDomainRequest();
+    xhr.open(method, url);
+  } else {
+    // CORS not supported.
+    xhr = null;
+  }
+  return xhr;
+}
+
+// Make the actual CORS request.
+function makeCorsRequest() {
+  // This is a sample server that supports CORS.
+  var url = 'http://www.wsdot.wa.gov/Ferries/API/Terminals/rest/terminaltransports?apiaccesscode={614be265-a38a-4680-b372-7463571f336a}';
+
+  var xhr = createCORSRequest('GET', url);
+  if (!xhr) {
+    alert('CORS not supported');
+    return;
+  }
+
+  // Response handlers.
+  xhr.onload = function() {
+    var text = xhr.responseText;
+    GeneratePage(text);
+    alert('Response from CORS request to ' + url);
+  };
+
+  xhr.onerror = function() {
+    alert('Woops, there was an error making the request.');
+  };
+
+  xhr.send();
+}
+
+function GeneratePage(text){
+  $("#traffic").append(text);
+
+}
+
+$(document).ready(function() {
   $('#apiCall1').click(function() {
-    let city = "Seattle";
-    $.ajax({
-      url: `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=[process.env.API_KEY]`,
-      type: 'GET',
-      data: {
-        format: 'json'
-      },
-      success: function(response) {
-        $('.showHumidity').text(`The humidity in ${city} is ${response.main.humidity}%`);
-        $('.showTemp').text(`The temperature in Kelvins is ${response.main.temp}.`);
-      },
-      error: function() {
-        $('#errors').text("There was an error processing your request. Please try again.")
-      }
-    });
+    makeCorsRequest();
+
   });
 });
-
-http://api.openweathermap.org/data/2.5/weather?q=${Seattle}&appid=[de06df85ea3e4cec32b6404ed65ac4f1]
-// Vanilla XMLHttpRequest Way
-// $(document).ready(function() {
-//   $('#weatherLocation').click(function() {
-//     let city = $('#location').val();
-//     $('#location').val("");
-//
-//     let request = new XMLHttpRequest();
-//     let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=[API-KEY-GOES-HERE]`;
-//
-//     request.onreadystatechange = function() {
-//       if (this.readyState === 4 && this.status === 200) {
-//         let response = JSON.parse(this.responseText);
-//         getElements(response);
-//       }
-//     }
-//
-//     request.open("GET", url, true);
-//     request.send();
-//
-//     getElements = function(response) {
-//       $('.showHumidity').text(`The humidity in ${city} is ${response.main.humidity}%`);
-//       $('.showTemp').text(`The temperature in Kelvins is ${response.main.temp} degrees.`);
-//     }
-//   });
-// });
