@@ -37,3 +37,26 @@ footer {
 #map {
   height: 100%;
 }
+h2 {
+  text-align: center;
+}
+a {
+  color: white;
+}
+a:hover {
+  color: silver;
+}
+.col-md-2 {
+  background-color: #0A8AA5;
+  color: white;
+  opacity: 0.8;
+  box-shadow: 0 0 5px #10A39E;
+  display: block !important;
+  font-family: "Book Antiqua";
+  margin: 10px;
+  font-weight: bold;
+  font-size: 12px;
+  border: 1px solid black;
+  height: 250px;
+
+}

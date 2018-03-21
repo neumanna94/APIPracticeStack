@@ -1,55 +1,51 @@
 import $ from 'jquery';
 import '../css/styles.css';
+function loadPhotos(){
+  var api_key = "d6d4cc6efd53dff1eddf811b010550f6";
 
-function createCORSRequest(method, url) {
+  var method = 'GET';
+  
+  var url = 'https://api.flickr.com/services/rest/?' +
+      'method=flickr.people.getPublicPhotos&' +
+      'user_id=44855005%40N04&' +
+      'extras=url_q&format=json&nojsoncallback=1&' +
+      'api_key=' + api_key;
+    console.log(url);
   var xhr = new XMLHttpRequest();
-  if ("withCredentials" in xhr) {
-    // XHR for Chrome/Firefox/Opera/Safari.
-    xhr.open(method, url, true);
-  } else if (typeof XDomainRequest != "undefined") {
-    // XDomainRequest for IE.
-    xhr = new XDomainRequest();
-    xhr.open(method, url);
-  } else {
-    // CORS not supported.
-    xhr = null;
-  }
-  return xhr;
-}
-
-// Make the actual CORS request.
-function makeCorsRequest() {
-  // This is a sample server that supports CORS.
-  var url = 'http://www.wsdot.wa.gov/Ferries/API/Terminals/rest/terminaltransports?apiaccesscode={614be265-a38a-4680-b372-7463571f336a}';
-
-  var xhr = createCORSRequest('GET', url);
-  if (!xhr) {
-    alert('CORS not supported');
+  if(!('withCredentials' in xhr)) {
+    console.log("Browser does not support CORS");
+    alert('Browser does not support CORS.');
     return;
   }
+  xhr.open(method, url);
 
-  // Response handlers.
-  xhr.onload = function() {
-    var text = xhr.responseText;
-    GeneratePage(text);
-    alert('Response from CORS request to ' + url);
+  xhr.oneerror = function() {
+    console.log("oneerror");
+    alert('There was an error.');
   };
-
-  xhr.onerror = function() {
-    alert('Woops, there was an error making the request.');
+  xhr.onload = function () {
+    var data = JSON.parse(xhr.responseText);
+    console.log(data);
+    if(data.stat == 'ok') {
+      console.log("data.stat = ok");
+      var photosDiv = document.getElementById('photos');
+      photosDiv.innerHTML = '';
+      var photos = data.photos.photo;
+        console.log(photos);
+        generatePhotos(photos);
+    } else {
+      alert(data.message);
+    }
   };
-
   xhr.send();
 }
-
-function GeneratePage(text){
-  $("#traffic").append(text);
-
+function generatePhotos(inputListOfPhotos){
+  $("#photos").text();
+  $("#photos").append("<h2> User Id: "+inputListOfPhotos[0].owner+"</h2>");
+  for(var i = 0 ; i < inputListOfPhotos.length; i ++){
+    $("#photos").append("<div class='col-md-2'><h4><a href='" + inputListOfPhotos[i].url_q + "'>" + inputListOfPhotos[i].title + "</a><img src='"+inputListOfPhotos[i].url_q + "'></div>");
+  }
 }
-
 $(document).ready(function() {
-  $('#apiCall1').click(function() {
-    makeCorsRequest();
-
-  });
+  loadPhotos();
 });
