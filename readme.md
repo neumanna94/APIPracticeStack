@@ -25,4 +25,4 @@ alexander.daniel.neumann@gmail.com
 
 ##References
 * **Favicon Source:**
-http://icons.iconarchive.com/icons/graphicloads/polygon/256/traffic-signal-icon.png
+http://lhscc.org.uk/wp-content/uploads/2014/12/cropped-favicon.png
