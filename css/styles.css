@@ -58,5 +58,14 @@ a:hover {
   font-size: 12px;
   border: 1px solid black;
   height: 250px;
+}
+.form-control{
+  width: 50%;
+}
+.btn{
 
+  background-color: #0A8AA5;
+}
+.btn:hover {
+  background-color: orange;
 }
