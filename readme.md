@@ -1,10 +1,9 @@
-# Simple Traffic
-Simple Weather is a single page web application for practice with AJAX/HttpGet requests to servers.
-This site will make AJAX requests to the WSDOT page to estimate the traffic time for a user to get to Epicodus.
-
+# API Practice
+API Practice references CORS in action for practicing using XMLHttpRequest objects for AJAX requests.
+This project generates the first 500 photos of a flickr account using the user_id corresponding with a profile.
 ## Set-up Installation
 
-First, clone from `https://github.com/neumanna94/SimpleTraffic`
+First, clone from `https://github.com/neumanna94/APIPracticeStack`
 
 ```sh
 $ npm install

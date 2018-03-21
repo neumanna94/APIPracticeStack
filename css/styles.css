@@ -61,9 +61,13 @@ a:hover {
 }
 .form-control{
   width: 50%;
+  margin-left: 25%;
+}
+.form-group label {
+  margin-left: 25%;
 }
 .btn{
-
+  margin-left: 47.5%;
   background-color: #0A8AA5;
 }
 .btn:hover {
