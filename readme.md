@@ -23,6 +23,6 @@ alexander.daniel.neumann@gmail.com
 * **Bootstrap**
 * **jQuery**
 
-##References
+## References
 * **Favicon Source:**
 http://lhscc.org.uk/wp-content/uploads/2014/12/cropped-favicon.png
